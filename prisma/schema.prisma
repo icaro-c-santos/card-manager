@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Person who makes purchases (not a login user)
+model Person {
+  id        String     @id @default(uuid())
+  name      String
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  purchases Purchase[]
+
+  @@map("people")
+}
+
+// A purchase made by a person
+model Purchase {
+  id                String        @id @default(uuid())
+  personId          String        @map("person_id")
+  purchaseDate      DateTime      @map("purchase_date")
+  description       String?
+  totalAmount       Decimal       @map("total_amount") @db.Decimal(10, 2)
+  installmentsCount Int           @map("installments_count")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  person            Person        @relation(fields: [personId], references: [id], onDelete: Cascade)
+  installments      Installment[]
+
+  @@index([personId])
+  @@index([purchaseDate])
+  @@map("purchases")
+}
+
+// Individual installment of a purchase
+model Installment {
+  id                String            @id @default(uuid())
+  purchaseId        String            @map("purchase_id")
+  installmentNumber Int               @map("installment_number")
+  amount            Decimal           @db.Decimal(10, 2)
+  invoiceMonth      Int               @map("invoice_month")
+  invoiceYear       Int               @map("invoice_year")
+  status            InstallmentStatus @default(PENDING)
+  paidAt            DateTime?         @map("paid_at")
+  paymentReceipt    Bytes?            @map("payment_receipt")
+  createdAt         DateTime          @default(now()) @map("created_at")
+  purchase          Purchase          @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+
+  @@index([purchaseId])
+  @@index([invoiceMonth, invoiceYear])
+  @@index([status])
+  @@map("installments")
+}
+
+enum InstallmentStatus {
+  PENDING
+  PAID
+}
