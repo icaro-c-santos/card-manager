@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getPurchaseById } from "@/domains/purchases";
 import { getMonthName } from "@/lib/credit-card";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }

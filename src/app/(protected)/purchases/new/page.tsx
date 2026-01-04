@@ -1,6 +1,8 @@
 import { getAllPeople } from "@/domains/people";
 import NewPurchaseForm from "./NewPurchaseForm";
 
+export const dynamic = "force-dynamic";
+
 export default async function NewPurchasePage() {
   const people = await getAllPeople();
 

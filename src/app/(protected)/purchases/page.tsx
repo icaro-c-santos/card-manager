@@ -2,6 +2,8 @@ import Link from "next/link";
 import { getAllPurchases } from "@/domains/purchases";
 import DeletePurchaseButton from "./DeletePurchaseButton";
 
+export const dynamic = "force-dynamic";
+
 export default async function PurchasesPage() {
   const purchases = await getAllPurchases();
 
@@ -106,7 +108,10 @@ export default async function PurchasesPage() {
                           >
                             Ver
                           </Link>
-                          <DeletePurchaseButton id={purchase.id} />
+                          <DeletePurchaseButton 
+                            id={purchase.id} 
+                            description={purchase.description || `Compra de ${formatCurrency(Number(purchase.totalAmount))}`} 
+                          />
                         </div>
                       </td>
                     </tr>

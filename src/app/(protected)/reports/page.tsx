@@ -2,6 +2,8 @@ import { getTotalSpendingByPerson, getMonthlySpending } from "@/domains/reports"
 import { getCurrentInvoicePeriod, getMonthName } from "@/lib/credit-card";
 import MonthlyReportSelector from "./MonthlyReportSelector";
 
+export const dynamic = "force-dynamic";
+
 export default async function ReportsPage() {
   const currentPeriod = getCurrentInvoicePeriod();
   const totalSpending = await getTotalSpendingByPerson();
