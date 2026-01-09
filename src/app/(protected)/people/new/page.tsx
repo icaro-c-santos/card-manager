@@ -25,11 +25,11 @@ export default function NewPersonPage() {
   }
 
   return (
-    <div className="max-w-lg">
-      <div className="mb-6">
+    <div className="max-w-lg mx-auto">
+      <div className="mb-4">
         <Link
           href="/people"
-          className="text-sm text-gray-500 hover:text-gray-700 inline-flex items-center"
+          className="text-sm text-gray-500 hover:text-gray-700 active:text-gray-900 inline-flex items-center"
         >
           <svg
             className="w-4 h-4 mr-1"
@@ -44,16 +44,16 @@ export default function NewPersonPage() {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Voltar para pessoas
+          Voltar
         </Link>
       </div>
 
-      <div className="card">
-        <h2 className="text-lg font-semibold text-gray-900 mb-6">Nova Pessoa</h2>
+      <div className="card p-4 lg:p-6">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4 lg:mb-6">Nova Pessoa</h2>
 
         <form action={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">
               Nome
             </label>
             <input
@@ -63,7 +63,7 @@ export default function NewPersonPage() {
               required
               autoFocus
               placeholder="Digite o nome da pessoa"
-              className="w-full"
+              className="w-full px-3 py-3 lg:py-2"
             />
           </div>
 
@@ -73,11 +73,11 @@ export default function NewPersonPage() {
             </div>
           )}
 
-          <div className="flex justify-end gap-3 pt-4">
-            <Link href="/people" className="btn-secondary">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:justify-end pt-2">
+            <Link href="/people" className="btn-secondary w-full sm:w-auto py-3 sm:py-2 text-center">
               Cancelar
             </Link>
-            <button type="submit" disabled={loading} className="btn-primary">
+            <button type="submit" disabled={loading} className="btn-primary w-full sm:w-auto py-3 sm:py-2">
               {loading ? "Salvando..." : "Salvar"}
             </button>
           </div>
@@ -86,4 +86,3 @@ export default function NewPersonPage() {
     </div>
   );
 }
-

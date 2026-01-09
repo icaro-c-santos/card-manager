@@ -19,14 +19,14 @@ export default async function DashboardPage() {
   const summary = await getDashboardSummary();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 lg:space-y-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="card">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-primary-100">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+        <div className="card p-3 lg:p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-primary-100 shrink-0">
               <svg
-                className="w-6 h-6 text-primary-600"
+                className="w-5 h-5 lg:w-6 lg:h-6 text-primary-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -39,20 +39,20 @@ export default async function DashboardPage() {
                 />
               </svg>
             </div>
-            <div>
-              <p className="text-sm text-gray-500">Pessoas</p>
-              <p className="text-2xl font-semibold text-gray-900">
+            <div className="min-w-0">
+              <p className="text-xs lg:text-sm text-gray-500">Pessoas</p>
+              <p className="text-xl lg:text-2xl font-semibold text-gray-900">
                 {summary.stats.peopleCount}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="card">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-emerald-100">
+        <div className="card p-3 lg:p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-emerald-100 shrink-0">
               <svg
-                className="w-6 h-6 text-emerald-600"
+                className="w-5 h-5 lg:w-6 lg:h-6 text-emerald-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -65,20 +65,20 @@ export default async function DashboardPage() {
                 />
               </svg>
             </div>
-            <div>
-              <p className="text-sm text-gray-500">Compras</p>
-              <p className="text-2xl font-semibold text-gray-900">
+            <div className="min-w-0">
+              <p className="text-xs lg:text-sm text-gray-500">Compras</p>
+              <p className="text-xl lg:text-2xl font-semibold text-gray-900">
                 {summary.stats.purchasesCount}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="card">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-amber-100">
+        <div className="card p-3 lg:p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-amber-100 shrink-0">
               <svg
-                className="w-6 h-6 text-amber-600"
+                className="w-5 h-5 lg:w-6 lg:h-6 text-amber-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -91,20 +91,20 @@ export default async function DashboardPage() {
                 />
               </svg>
             </div>
-            <div>
-              <p className="text-sm text-gray-500">Parcelas Pendentes</p>
-              <p className="text-2xl font-semibold text-gray-900">
+            <div className="min-w-0">
+              <p className="text-xs lg:text-sm text-gray-500 truncate">Pendentes</p>
+              <p className="text-xl lg:text-2xl font-semibold text-gray-900">
                 {summary.stats.pendingInstallmentsCount}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="card">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-red-100">
+        <div className="card p-3 lg:p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-red-100 shrink-0">
               <svg
-                className="w-6 h-6 text-red-600"
+                className="w-5 h-5 lg:w-6 lg:h-6 text-red-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -117,9 +117,9 @@ export default async function DashboardPage() {
                 />
               </svg>
             </div>
-            <div>
-              <p className="text-sm text-gray-500">Pendente (Mês)</p>
-              <p className="text-2xl font-semibold text-gray-900">
+            <div className="min-w-0">
+              <p className="text-xs lg:text-sm text-gray-500 truncate">Mês Atual</p>
+              <p className="text-lg lg:text-2xl font-semibold text-gray-900 truncate">
                 {formatCurrency(summary.currentMonth.pendingAmount)}
               </p>
             </div>
@@ -128,14 +128,14 @@ export default async function DashboardPage() {
       </div>
 
       {/* Current Month Summary */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+        <div className="card p-4 lg:p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-base lg:text-lg font-semibold text-gray-900">
               Fatura de {getMonthName(summary.currentMonth.month)}/{summary.currentMonth.year}
             </h2>
-            <Link href="/installments" className="text-sm text-primary-600 hover:text-primary-700">
-              Ver todas →
+            <Link href="/installments" className="text-sm text-primary-600 hover:text-primary-700 active:text-primary-800">
+              Ver →
             </Link>
           </div>
 
@@ -177,11 +177,11 @@ export default async function DashboardPage() {
         </div>
 
         {/* Recent Purchases */}
-        <div className="card">
+        <div className="card p-4 lg:p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Compras Recentes</h2>
-            <Link href="/purchases" className="text-sm text-primary-600 hover:text-primary-700">
-              Ver todas →
+            <h2 className="text-base lg:text-lg font-semibold text-gray-900">Compras Recentes</h2>
+            <Link href="/purchases" className="text-sm text-primary-600 hover:text-primary-700 active:text-primary-800">
+              Ver →
             </Link>
           </div>
 
@@ -213,29 +213,13 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="card">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Ações Rápidas</h2>
-        <div className="flex flex-wrap gap-3">
-          <Link href="/people/new" className="btn-primary">
+      {/* Quick Actions - Mobile Optimized */}
+      <div className="card p-4 lg:p-6">
+        <h2 className="text-base lg:text-lg font-semibold text-gray-900 mb-3 lg:mb-4">Ações Rápidas</h2>
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 lg:gap-3">
+          <Link href="/purchases/new" className="btn-primary text-sm py-2.5 justify-center">
             <svg
-              className="w-4 h-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-            Nova Pessoa
-          </Link>
-          <Link href="/purchases/new" className="btn-primary">
-            <svg
-              className="w-4 h-4 mr-2"
+              className="w-4 h-4 mr-1.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -249,9 +233,25 @@ export default async function DashboardPage() {
             </svg>
             Nova Compra
           </Link>
-          <Link href="/installments" className="btn-secondary">
+          <Link href="/people/new" className="btn-secondary text-sm py-2.5 justify-center">
             <svg
-              className="w-4 h-4 mr-2"
+              className="w-4 h-4 mr-1.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
+            </svg>
+            Nova Pessoa
+          </Link>
+          <Link href="/installments" className="btn-secondary text-sm py-2.5 justify-center col-span-2 sm:col-span-1">
+            <svg
+              className="w-4 h-4 mr-1.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
