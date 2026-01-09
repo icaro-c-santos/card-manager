@@ -233,7 +233,6 @@ export default function PaymentModal({ installment, onClose }: PaymentModalProps
                 ref={fileInputRef}
                 type="file"
                 accept="image/*"
-                capture="environment"
                 onChange={handleFileChange}
                 className="hidden"
               />

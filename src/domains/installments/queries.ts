@@ -92,3 +92,30 @@ export async function getAvailableInvoicePeriods() {
   }));
 }
 
+export async function getInstallmentsByPersonAndPeriod(
+  personId: string,
+  month: number,
+  year: number
+) {
+  return prisma.installment.findMany({
+    where: {
+      invoiceMonth: month,
+      invoiceYear: year,
+      purchase: {
+        personId,
+      },
+    },
+    include: {
+      purchase: {
+        include: {
+          person: true,
+        },
+      },
+    },
+    orderBy: [
+      { purchase: { purchaseDate: "desc" } },
+      { installmentNumber: "asc" },
+    ],
+  });
+}
+

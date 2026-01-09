@@ -80,7 +80,11 @@ export default async function InstallmentsPage({ searchParams }: InstallmentsPag
       </div>
 
       {/* Installments List */}
-      <InstallmentsList installments={installments} />
+      <InstallmentsList
+        installments={installments}
+        invoiceMonth={month}
+        invoiceYear={year}
+      />
     </div>
   );
 }
