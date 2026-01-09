@@ -8,14 +8,14 @@ export default async function PeoplePage() {
   const people = await getAllPeople();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-gray-600">
-          {people.length} {people.length === 1 ? "pessoa cadastrada" : "pessoas cadastradas"}
+        <p className="text-sm text-gray-600">
+          {people.length} {people.length === 1 ? "pessoa" : "pessoas"}
         </p>
-        <Link href="/people/new" className="btn-primary">
+        <Link href="/people/new" className="btn-primary text-sm py-2 px-3">
           <svg
-            className="w-4 h-4 mr-2"
+            className="w-4 h-4 mr-1.5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -27,7 +27,7 @@ export default async function PeoplePage() {
               d="M12 6v6m0 0v6m0-6h6m-6 0H6"
             />
           </svg>
-          Nova Pessoa
+          Nova
         </Link>
       </div>
 
@@ -57,40 +57,36 @@ export default async function PeoplePage() {
           </Link>
         </div>
       ) : (
-        <div className="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Cadastrado em</th>
-                <th className="text-right">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {people.map((person) => (
-                <tr key={person.id}>
-                  <td className="font-medium text-gray-900">{person.name}</td>
-                  <td className="text-gray-500">
-                    {new Date(person.createdAt).toLocaleDateString("pt-BR")}
-                  </td>
-                  <td className="text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <Link
-                        href={`/people/${person.id}/edit`}
-                        className="text-primary-600 hover:text-primary-700 text-sm font-medium"
-                      >
-                        Editar
-                      </Link>
-                      <DeletePersonButton id={person.id} name={person.name} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="space-y-2">
+          {people.map((person) => (
+            <div
+              key={person.id}
+              className="card p-4 flex items-center justify-between"
+            >
+              <div className="min-w-0 flex-1">
+                <p className="font-medium text-gray-900 truncate">
+                  {person.name}
+                </p>
+                <p className="text-xs text-gray-500">
+                  Desde {new Date(person.createdAt).toLocaleDateString("pt-BR")}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 shrink-0 ml-3">
+                <Link
+                  href={`/people/${person.id}/edit`}
+                  className="p-2 text-primary-600 hover:bg-primary-50 active:bg-primary-100 rounded-lg transition-colors"
+                  title="Editar"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </Link>
+                <DeletePersonButton id={person.id} name={person.name} />
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>
   );
 }
-

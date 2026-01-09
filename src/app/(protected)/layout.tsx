@@ -1,5 +1,6 @@
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
+import { MobileMenuProvider } from "@/components/layout/MobileMenuContext";
 
 export default function ProtectedLayout({
   children,
@@ -7,13 +8,14 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Sidebar />
-      <div className="pl-64">
-        <Header />
-        <main className="p-6">{children}</main>
+    <MobileMenuProvider>
+      <div className="min-h-screen bg-gray-50">
+        <Sidebar />
+        <div className="lg:pl-64">
+          <Header />
+          <main className="p-4 lg:p-6">{children}</main>
+        </div>
       </div>
-    </div>
+    </MobileMenuProvider>
   );
 }
-

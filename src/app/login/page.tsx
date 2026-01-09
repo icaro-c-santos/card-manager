@@ -1,26 +1,57 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useFormStatus } from "react-dom";
 import { loginAction } from "./actions";
 
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="w-full py-3 px-4 bg-primary-600 hover:bg-primary-700 disabled:bg-primary-600/50 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+    >
+      {pending ? (
+        <span className="inline-flex items-center">
+          <svg
+            className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+          Entrando...
+        </span>
+      ) : (
+        "Entrar"
+      )}
+    </button>
+  );
+}
+
 export default function LoginPage() {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(formData: FormData) {
-    setLoading(true);
+  async function handleAction(formData: FormData) {
     setError(null);
-
     const result = await loginAction(formData);
-
-    if (result.success) {
-      router.push("/dashboard");
-      router.refresh();
-    } else {
-      setError(result.error || "Login failed");
-      setLoading(false);
+    // Se chegou aqui, houve erro (sucesso redireciona automaticamente)
+    if (result && !result.success) {
+      setError(result.error || "Erro no login");
     }
   }
 
@@ -48,7 +79,7 @@ export default function LoginPage() {
             <p className="text-slate-400 mt-2">Controle de gastos do cartão</p>
           </div>
 
-          <form action={handleSubmit} className="space-y-5">
+          <form action={handleAction} className="space-y-5">
             <div>
               <label htmlFor="login" className="block text-sm font-medium text-slate-300 mb-2">
                 Usuário
@@ -85,38 +116,7 @@ export default function LoginPage() {
               </div>
             )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 px-4 bg-primary-600 hover:bg-primary-700 disabled:bg-primary-600/50 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900"
-            >
-              {loading ? (
-                <span className="inline-flex items-center">
-                  <svg
-                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  Entrando...
-                </span>
-              ) : (
-                "Entrar"
-              )}
-            </button>
+            <SubmitButton />
           </form>
         </div>
 
@@ -127,4 +127,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

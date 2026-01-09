@@ -34,7 +34,7 @@ CREATE TABLE "installments" (
     "invoice_year" INTEGER NOT NULL,
     "status" "InstallmentStatus" NOT NULL DEFAULT 'PENDING',
     "paid_at" TIMESTAMP(3),
-    "payment_receipt" BYTEA,
+    "payment_receipt" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "installments_pkey" PRIMARY KEY ("id")

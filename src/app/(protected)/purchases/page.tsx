@@ -19,11 +19,26 @@ export default async function PurchasesPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <p className="text-gray-600">Gerencie as compras parceladas</p>
-        <Link href="/purchases/new" className="btn-primary">
-          Nova Compra
+        <p className="text-sm text-gray-600">
+          {purchases.length} {purchases.length === 1 ? "compra" : "compras"}
+        </p>
+        <Link href="/purchases/new" className="btn-primary text-sm py-2 px-3">
+          <svg
+            className="w-4 h-4 mr-1.5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+            />
+          </svg>
+          Nova
         </Link>
       </div>
 
@@ -56,73 +71,52 @@ export default async function PurchasesPage() {
           </Link>
         </div>
       ) : (
-        <div className="card p-0">
-          <div className="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Data</th>
-                  <th>Pessoa</th>
-                  <th>Descrição</th>
-                  <th className="text-right">Valor Total</th>
-                  <th className="text-center">Parcelas</th>
-                  <th className="text-center">Status</th>
-                  <th className="text-right">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {purchases.map((purchase) => {
-                  const paidCount = purchase.installments.filter(
-                    (i) => i.status === "PAID"
-                  ).length;
-                  const totalCount = purchase.installments.length;
-                  const allPaid = paidCount === totalCount;
+        <div className="space-y-2">
+          {purchases.map((purchase) => {
+            const paidCount = purchase.installments.filter(
+              (i) => i.status === "PAID"
+            ).length;
+            const totalCount = purchase.installments.length;
+            const allPaid = paidCount === totalCount;
 
-                  return (
-                    <tr key={purchase.id}>
-                      <td className="whitespace-nowrap">
-                        {formatDate(purchase.purchaseDate)}
-                      </td>
-                      <td className="font-medium">{purchase.person.name}</td>
-                      <td className="max-w-xs truncate">
-                        {purchase.description || "-"}
-                      </td>
-                      <td className="text-right whitespace-nowrap">
-                        {formatCurrency(Number(purchase.totalAmount))}
-                      </td>
-                      <td className="text-center">
-                        {paidCount}/{totalCount}
-                      </td>
-                      <td className="text-center">
-                        <span
-                          className={allPaid ? "badge-paid" : "badge-pending"}
-                        >
-                          {allPaid ? "Pago" : "Pendente"}
-                        </span>
-                      </td>
-                      <td className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Link
-                            href={`/purchases/${purchase.id}`}
-                            className="text-primary-600 hover:text-primary-900 text-sm font-medium"
-                          >
-                            Ver
-                          </Link>
-                          <DeletePurchaseButton 
-                            id={purchase.id} 
-                            description={purchase.description || `Compra de ${formatCurrency(Number(purchase.totalAmount))}`} 
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+            return (
+              <Link
+                key={purchase.id}
+                href={`/purchases/${purchase.id}`}
+                className="card p-4 block hover:bg-gray-50 active:bg-gray-100 transition-colors"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-gray-900 truncate">
+                      {purchase.description || "Compra sem descrição"}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-0.5">
+                      {purchase.person.name}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {formatDate(purchase.purchaseDate)} • {paidCount}/{totalCount} pagas
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-end gap-1 shrink-0">
+                    <p className="font-semibold text-gray-900">
+                      {formatCurrency(Number(purchase.totalAmount))}
+                    </p>
+                    <span className={`text-xs ${allPaid ? "badge-paid" : "badge-pending"}`}>
+                      {allPaid ? "Pago" : "Pendente"}
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-3 flex items-center gap-2">
+                  <DeletePurchaseButton
+                    id={purchase.id}
+                    description={purchase.description || `Compra de ${formatCurrency(Number(purchase.totalAmount))}`}
+                  />
+                </div>
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>
   );
 }
-

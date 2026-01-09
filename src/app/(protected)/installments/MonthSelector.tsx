@@ -57,7 +57,7 @@ export default function MonthSelector({
     <select
       value={currentPeriodValue}
       onChange={handleChange}
-      className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
+      className="px-3 py-2.5 lg:py-2 rounded-lg border border-gray-300 bg-white text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 w-full sm:w-auto"
     >
       {periods.map((period) => (
         <option key={period.value} value={period.value}>
@@ -67,4 +67,3 @@ export default function MonthSelector({
     </select>
   );
 }
-

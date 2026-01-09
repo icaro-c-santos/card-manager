@@ -68,7 +68,7 @@ export default function InstallmentsList({ installments }: InstallmentsListProps
 
   return (
     <>
-      <div className="space-y-6">
+      <div className="space-y-4">
         {Object.values(byPerson).map(({ person, installments: personInstallments }) => {
           const personTotal = personInstallments.reduce(
             (sum, i) => sum + Number(i.amount),
@@ -79,68 +79,58 @@ export default function InstallmentsList({ installments }: InstallmentsListProps
             .reduce((sum, i) => sum + Number(i.amount), 0);
 
           return (
-            <div key={person.id} className="card">
-              <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-200">
+            <div key={person.id} className="card p-4 lg:p-6">
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-base lg:text-lg font-semibold text-gray-900">
                     {person.name}
                   </h3>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs lg:text-sm text-gray-500">
                     {personInstallments.length} parcela
                     {personInstallments.length !== 1 ? "s" : ""}
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-lg font-semibold text-gray-900">
+                  <p className="text-base lg:text-lg font-semibold text-gray-900">
                     {formatCurrency(personTotal)}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs lg:text-sm text-gray-500">
                     {formatCurrency(personPaid)} pago
                   </p>
                 </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {personInstallments.map((installment) => (
-                  <div
+                  <button
                     key={installment.id}
-                    className="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                    onClick={() => setSelectedInstallment(installment)}
+                    className="w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-colors"
                   >
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">
-                        {installment.purchase.description || "Compra sem descrição"}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Parcela {installment.installmentNumber}/
-                        {installment.purchase.installmentsCount} •{" "}
-                        {formatDate(installment.purchase.purchaseDate)}
-                      </p>
-                    </div>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-gray-900 text-sm lg:text-base truncate">
+                          {installment.purchase.description || "Compra sem descrição"}
+                        </p>
+                        <p className="text-xs lg:text-sm text-gray-500 mt-0.5">
+                          Parcela {installment.installmentNumber}/
+                          {installment.purchase.installmentsCount} •{" "}
+                          {formatDate(installment.purchase.purchaseDate)}
+                        </p>
+                      </div>
 
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <p className="font-semibold text-gray-900">
+                      <div className="flex flex-col items-end gap-1 shrink-0">
+                        <p className="font-semibold text-gray-900 text-sm lg:text-base">
                           {formatCurrency(Number(installment.amount))}
                         </p>
                         {installment.status === "PAID" ? (
-                          <span className="badge-paid">Paga</span>
+                          <span className="badge-paid text-xs">Paga</span>
                         ) : (
-                          <span className="badge-pending">Pendente</span>
+                          <span className="badge-pending text-xs">Pendente</span>
                         )}
                       </div>
-
-                      <button
-                        onClick={() => setSelectedInstallment(installment)}
-                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                          installment.status === "PAID"
-                            ? "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                            : "bg-emerald-600 text-white hover:bg-emerald-700"
-                        }`}
-                      >
-                        {installment.status === "PAID" ? "Ver" : "Pagar"}
-                      </button>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -157,4 +147,3 @@ export default function InstallmentsList({ installments }: InstallmentsListProps
     </>
   );
 }
-

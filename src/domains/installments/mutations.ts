@@ -3,14 +3,14 @@ import { InstallmentStatus } from "@prisma/client";
 
 export async function markInstallmentAsPaid(
   id: string,
-  paymentReceipt?: Buffer
+  paymentReceiptPath?: string
 ) {
   return prisma.installment.update({
     where: { id },
     data: {
       status: InstallmentStatus.PAID,
       paidAt: new Date(),
-      paymentReceipt: paymentReceipt || null,
+      paymentReceipt: paymentReceiptPath || null,
     },
     include: {
       purchase: {
@@ -40,11 +40,11 @@ export async function markInstallmentAsPending(id: string) {
   });
 }
 
-export async function updatePaymentReceipt(id: string, paymentReceipt: Buffer) {
+export async function updatePaymentReceipt(id: string, paymentReceiptPath: string) {
   return prisma.installment.update({
     where: { id },
     data: {
-      paymentReceipt,
+      paymentReceipt: paymentReceiptPath,
     },
   });
 }

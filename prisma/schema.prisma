@@ -47,7 +47,7 @@ model Installment {
   invoiceYear       Int               @map("invoice_year")
   status            InstallmentStatus @default(PENDING)
   paidAt            DateTime?         @map("paid_at")
-  paymentReceipt    Bytes?            @map("payment_receipt")
+  paymentReceipt    String?           @map("payment_receipt")
   createdAt         DateTime          @default(now()) @map("created_at")
   purchase          Purchase          @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
 

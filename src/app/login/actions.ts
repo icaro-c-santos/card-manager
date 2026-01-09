@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { validateCredentials, generateToken, setAuthCookie } from "@/lib/auth";
 
 export async function loginAction(
@@ -21,6 +22,5 @@ export async function loginAction(
   const token = generateToken(login);
   await setAuthCookie(token);
 
-  return { success: true };
+  redirect("/dashboard");
 }
-

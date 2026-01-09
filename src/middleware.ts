@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
+import { jwtVerify } from "jose";
 
-const JWT_SECRET = process.env.JWT_SECRET || "default-secret-change-me";
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || "default-secret-change-me"
+);
 const PUBLIC_PATHS = ["/login"];
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Allow public paths
@@ -31,7 +33,7 @@ export function middleware(request: NextRequest) {
 
   // Verify token
   try {
-    jwt.verify(token, JWT_SECRET);
+    await jwtVerify(token, JWT_SECRET);
     return NextResponse.next();
   } catch {
     // Invalid token, redirect to login
